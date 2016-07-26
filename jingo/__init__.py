@@ -160,9 +160,12 @@ def render_to_string(request, template, context=None):
     Render a template into a string.
     """
     def get_context():
-        c = {} if context is None else context.copy()
+        c = {}
         for processor in get_standard_processors():
             c.update(processor(request))
+
+        if context is not None:
+            c.update(context.copy())
         return c
 
     # If it's not a Template, it must be a path to be loaded.
